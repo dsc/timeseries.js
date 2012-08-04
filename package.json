@@ -1,0 +1,31 @@
+{
+  "name": "timeseries",
+  "version": "0.1.0",
+  "description": "Utilities for working with a collection of data columns aligned along a common timeline",
+  "homepage": "http://github.com/dsc/timeseries.js",
+  "keywords": [
+    "timeseries",
+    "csv",
+    "util"
+  ],
+  "author": "David Schoonover <dsc@less.ly> (http://less.ly)",
+  "main": "./lib",
+  "dependencies": {
+    "underscore": "== 1.3.x",
+    "underscore.nested": "== 0.1.x"
+  },
+  "devDependencies": {
+    "coco": "== 0.7.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/dsc/timeseries.js.git"
+  },
+  "bugs": {
+    "url": "http://github.com/dsc/timeseries.js/issues"
+  },
+  "engine": {
+    "node": ">=0.8.x"
+  },
+  "license": "MIT"
+}
