@@ -1,4 +1,5 @@
 _  = require 'underscore'
+_n = require 'underscore.nested'
 
 TimeSeriesData = require './timeseries'
 
@@ -105,7 +106,7 @@ class CSVData extends TimeSeriesData
                 @columns.push [] unless @columns[idx]
                 @columns[idx].push v
         
-        @untransformedRows = _.merge [], @rows
+        @untransformedRows = _n.merge [], @rows
         this
     
 

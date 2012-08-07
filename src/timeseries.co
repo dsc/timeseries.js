@@ -1,5 +1,5 @@
 _  = require 'underscore'
-
+_n = require 'underscore.nested'
 
 
 /**
@@ -127,7 +127,7 @@ class TimeSeriesData
      */
     clearTransforms: ->
         @transforms = []
-        @rows = _.merge [], @untransformedRows
+        @rows = _n.merge [], @untransformedRows
         @rebuildColumns()
     
     /**
@@ -177,7 +177,7 @@ class TimeSeriesData
      * @returns {Array<Array>} Deep copy of the data rows (including all columns).
      */
     toJSON: ->
-        _.merge [], @getData()
+        _n.merge [], @getData()
     
     toString: ->
         labels = @labels
