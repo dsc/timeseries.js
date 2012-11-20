@@ -42,7 +42,7 @@ class TimeSeriesData
      * @returns {Array<Array>} List of rows, each of which includes all columns.
      */
     getData: ->
-        @data
+        @rows
     
     /**
      * @returns {Array<Array>} List of all columns (including date column).
