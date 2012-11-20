@@ -1,0 +1,5 @@
+VERSION = exports.VERSION = [0, 1, 2]
+VERSION.toString = -> @join '.'
+
+exports.TimeSeriesData = require './timeseries'
+exports.CSVData        = require './csv'
