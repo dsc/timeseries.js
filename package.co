@@ -16,6 +16,6 @@ devDependencies                 :
 repository                      : type:'git', url:'http://github.com/dsc/timeseries.js.git'
 bugs                            : url:'http://github.com/dsc/timeseries.js/issues'
 
-engine                          : node:'>=0.9.x'
+engine                          : node:'>=0.8.x'
 license                         : 'MIT'
 
