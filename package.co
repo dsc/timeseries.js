@@ -1,5 +1,5 @@
 name                            : 'timeseries'
-version                         : '0.2.0'
+version                         : '0.2.1'
 description                     : 'Utilities for working with a collection of data columns aligned along a common timeline'
 homepage                        : 'http://github.com/dsc/timeseries.js'
 keywords                        : <[ timeseries csv util ]>
