@@ -1,5 +1,5 @@
 name                            : 'timeseries'
-version                         : '0.1.2'
+version                         : '0.2.0'
 description                     : 'Utilities for working with a collection of data columns aligned along a common timeline'
 homepage                        : 'http://github.com/dsc/timeseries.js'
 keywords                        : <[ timeseries csv util ]>
@@ -11,12 +11,11 @@ dependencies                    :
     'underscore'                : '== 1.4.x'
     'underscore.nested'         : '== 0.1.x'
 devDependencies                 : 
-    'coco'                      : '== 0.7.x'
-#    'buildtools'                : 'https://github.com/dsc/node-buildtools/tarball/master'
+    'coco'                      : '== 0.9.x'
 
 repository                      : type:'git', url:'http://github.com/dsc/timeseries.js.git'
 bugs                            : url:'http://github.com/dsc/timeseries.js/issues'
 
-engine                          : node:'>=0.8.x'
+engine                          : node:'>=0.9.x'
 license                         : 'MIT'
 

@@ -12,11 +12,11 @@ class TimeSeriesData
     labels          : []
     types           : []
     
-    untransformedRows        : null # row-oriented (untransformed)
-    rows            : null # row-oriented
-    columns         : null # column-oriented (includes date column)
-    dateColumn      : null # only date column
-    dataColumns     : null # column-oriented (excludes date column)
+    untransformedRows : null # row-oriented (untransformed)
+    rows              : null # row-oriented
+    columns           : null # column-oriented (includes date column)
+    dateColumn        : null # only date column
+    dataColumns       : null # column-oriented (excludes date column)
     
     
     /**
@@ -28,10 +28,15 @@ class TimeSeriesData
         @options = _.clone(@DEFAULT_OPTIONS) import (opts or {})
         
         @transforms = []
-        @labels  = @options.labels or []
-        @types   = @options.types  or []
+        @labels     = @options.labels or []
+        @types      = @options.types  or []
         
         @parseData that if data or @options.data
+        unless @rows or @columns
+            throw new Error 'TimeSeriesData::parseData() must set either `@rows` or `@columns`!'
+        @rebuildColumns()   unless @columns
+        @rebuildRows()      unless @rows
+        
         @rebuildDerived()
     
     
@@ -75,7 +80,8 @@ class TimeSeriesData
      * Subclass and override to perform preprocessing of the data.
      * @private
      */
-    parseData : (rawData) ->
+    parseData : (@rawData) ->
+        @rows = @untransformedRows = @rawData
         this
     
     /**
@@ -172,6 +178,29 @@ class TimeSeriesData
     
     
     /* * * *  Misc  * * * */
+    
+    
+    /**
+     * Creates a parser from multiple other parsers, each paired with a validator.
+     * When given a value, the combined parser will attempt each given parse function,
+     * passing the result to its paired validator.
+     * 
+     * The first successful parse is returned; if all parsers fail, the original input
+     * is returned.
+     * 
+     * @protected
+     * @param {Array<Function,Function>} parsers List of pairs of functions, (parser, validator):
+     *      - parser: Invoked to coerce a string value into the correct type.
+     *      - isValid: Invoked after parser to determine if the parse was successful.
+     * @param {Object} [context=this] Context of execution for all parsers and validators.
+     * @returns {Function} Parser function that takes a string and returns the value coerced to the correct type.
+     */
+    createParser : (parsers, cxt=this) ->
+        (s) ->
+            for [parser, isValid] of parsers
+                v = parse.call cxt, s
+                return v if isValid.call cxt, v
+            s
     
     /**
      * @returns {Array<Array>} Deep copy of the data rows (including all columns).

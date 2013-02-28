@@ -40,14 +40,24 @@ class CSVData extends TimeSeriesData
     parseNumber: (s) ->
         parseFloat s
     
+    validateNumber: (v) ->
+        typeof v is 'number' and not isNaN v
+    
+    parseDate: (s) ->
+        new Date s.replace DASH_PATTERN, '/'
+    
+    validateDate: (v) ->
+        v instanceof Date and String(v) != 'Invalid Date'
+    
     parseHiLo: (s) ->
         s.split @options.customBars .map @parseNumber, this
     
     parseFraction: (s) ->
         s.split @options.fractionSep .map @parseNumber, this
     
-    parseDate: (s) ->
-        new Date s.replace DASH_PATTERN, '/'
+    validateArray: (v) ->
+        _.isArray(v) and _.map v, @validateNumber
+    
     
     
     /**
@@ -69,13 +79,15 @@ class CSVData extends TimeSeriesData
         if first.indexOf(delim) is -1 and first.indexOf('\t') >= 0
             delim = '\t'
         
+        parsers =
+            *           @parseDate,         @validateDate
+            *           @parseNumber,       @validateNumber
+        parsers.push [  @parseHiLo,         @validateArray ] if o.customBars
+        parsers.push [  @parseFraction,     @validateArray ] if o.fractions
+        parser = @createParser parsers, this
+        
+        @columns = []
         rows = @rows = []
-        @columns     = []
-        
-        parser = @parseNumber
-        parser = @parseHiLo     if o.customBars
-        parser = @parseFraction if o.fractions
-        
         hasHeaders = @labels.length is not 0
         for line, i of lines
             line .= replace o.commentPat, '' if o.removeCommentedText
@@ -87,9 +99,8 @@ class CSVData extends TimeSeriesData
                 @labels = cols.map -> it.replace STRIP_PATTERN, ''
                 continue
             
-            continue unless cols.length > 1
-            date = @parseDate cols.shift()
-            fields = cols.map parser, this
+            date = parser cols.shift()
+            fields = cols.map parser
             if o.errorBars
                 fields = fields.reduce do
                     (acc, v) ->
